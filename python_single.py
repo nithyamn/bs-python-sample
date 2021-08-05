@@ -8,7 +8,7 @@ import os, time
 username = os.getenv("BROWSERSTACK_USERNAME")
 access_key = os.getenv("BROWSERSTACK_ACCESS_KEY")
 build_name = os.getenv("BROWSERSTACK_BUILD_NAME")
-browserstack_local = "true"
+browserstack_local = os.getenv("BROWSERSTACK_LOCAL")
 browserstack_local_identifier = os.getenv("BROWSERSTACK_LOCAL_IDENTIFIER")
 
 desired_cap = {
