@@ -47,7 +47,7 @@ try:
 except TimeoutException:
     driver.execute_script('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": "Title not matched"}}')
 print(driver.title)
-time.sleep(100)
+
 driver.quit() 
 
 
