@@ -5,11 +5,11 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os, time
-username = os.getenv("BROWSERSTACK_USERNAME")
-access_key = os.getenv("BROWSERSTACK_ACCESS_KEY")
-build_name = os.getenv("BROWSERSTACK_BUILD_NAME")
-browserstack_local = os.getenv("BROWSERSTACK_LOCAL")
-browserstack_local_identifier = os.getenv("BROWSERSTACK_LOCAL_IDENTIFIER")
+username = os.environ.get('BROWSERSTACK_USERNAME')
+access_key = os.environ.get('BROWSERSTACK_ACCESS_KEY')
+build_name = os.environ.get("BROWSERSTACK_BUILD_NAME")
+browserstack_local = os.environ.get("BROWSERSTACK_LOCAL")
+browserstack_local_identifier = os.environ.get("BROWSERSTACK_LOCAL_IDENTIFIER")
 
 desired_cap = {
  'browser': 'Chrome',
@@ -23,10 +23,16 @@ desired_cap = {
  'browserstack.local': browserstack_local,
  'browserstack.localIdentifier': browserstack_local_identifier
 }
+print('username: '+username+' access_key: '+access_key)
 driver = webdriver.Remote(
     command_executor='https://hub-cloud.browserstack.com/wd/hub',
     desired_capabilities=desired_cap)
-driver.get("http://localhost:8888")
+try:
+    # driver.get("https://www.apple.com/")
+    driver.get("https://bstackdemo.com/")
+except Exception as e:
+    print("page not accessible")
+
 time.sleep(10)
 driver.get("https://www.google.com")
 if not "Google" in driver.title:
@@ -41,4 +47,12 @@ try:
 except TimeoutException:
     driver.execute_script('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed", "reason": "Title not matched"}}')
 print(driver.title)
+time.sleep(100)
 driver.quit() 
+
+
+# username = os.getenv("BROWSERSTACK_USERNAME")
+# access_key = os.getenv("BROWSERSTACK_ACCESS_KEY")
+# build_name = os.getenv("BROWSERSTACK_BUILD_NAME")
+# browserstack_local = "true"
+# browserstack_local_identifier = os.getenv("BROWSERSTACK_LOCAL_IDENTIFIER")
